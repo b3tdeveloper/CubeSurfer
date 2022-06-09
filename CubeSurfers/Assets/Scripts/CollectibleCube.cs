@@ -7,11 +7,15 @@ public class CollectibleCube : MonoBehaviour
     bool isCollected;
     int index;
     public Collector collector;
+    int destroyAmount;
+    int counter;
 
     // Start is called before the first frame update
     void Start()
     {
         isCollected = false;
+        destroyAmount = 1;
+        counter = 0;
     }
 
     // Update is called once per frame
@@ -35,6 +39,18 @@ public class CollectibleCube : MonoBehaviour
             GetComponent<BoxCollider>().enabled = false;
             other.GetComponent<BoxCollider>().enabled = false;
         }
+        if (other.gameObject.CompareTag("Posion"))
+        {
+            Invoke("DestroyCubesInPosion", 0.15f);
+        }
+    }
+    
+    public void DestroyCubesInPosion()
+    {
+        collector.DecreaseHeight();
+        transform.parent = null;
+        GetComponent<BoxCollider>().enabled = false;
+            
     }
 
     public bool GetIsCollected()
